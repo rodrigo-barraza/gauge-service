@@ -1,8 +1,4 @@
-// ============================================================
-// Gauge Service — ReadingService
-// ============================================================
-// Time-series sensor reading ingestion and querying.
-// ============================================================
+// ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
 import { getDB } from "../db.js";

@@ -1,12 +1,4 @@
-// ============================================================
-// Gauge Service — Configuration
-// ============================================================
-// Typed accessor layer over process.env. The Vault service is
-// the single source of truth — boot.js hydrates process.env
-// from the Vault before any module imports run.
-//
-// This file contains NO defaults and NO secrets.
-// ============================================================
+// ─── Configuration ──────────────────────────────────────────
 
 const CONFIG = {
   GAUGE_SERVICE_PORT:

@@ -1,8 +1,4 @@
-// ============================================================
-// Gauge Service — Weather Proxy Routes
-// ============================================================
-// Proxies weather/environment data from tools-service.
-// ============================================================
+// ─── Weather Proxy Routes ───────────────────────────────────
 
 import { Router } from "express";
 import {

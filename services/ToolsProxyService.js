@@ -1,9 +1,4 @@
-// ============================================================
-// Gauge Service — ToolsProxyService
-// ============================================================
-// HTTP client that proxies weather/environment requests to
-// tools-service for consumption by the Gauge dashboard.
-// ============================================================
+// ─── ToolsProxyService ──────────────────────────────────────
 
 import CONFIG from "../config.js";
 import logger from "../logger.js";

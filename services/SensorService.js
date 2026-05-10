@@ -1,8 +1,4 @@
-// ============================================================
-// Gauge Service — SensorService
-// ============================================================
-// CRUD for sensor device registration and management.
-// ============================================================
+// ─── SensorService ──────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
 import { getDB } from "../db.js";

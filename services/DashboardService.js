@@ -1,8 +1,4 @@
-// ============================================================
-// Gauge Service — DashboardService
-// ============================================================
-// Aggregated dashboard stats for the frontend overview.
-// ============================================================
+// ─── DashboardService ───────────────────────────────────────
 
 import { getDB } from "../db.js";
 import { COLLECTIONS } from "../constants.js";
