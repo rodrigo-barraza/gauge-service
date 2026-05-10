@@ -1,0 +1,8 @@
+node_modules/
+.env
+.vscode/settings.json
+
+*:Zone.Identifier
+
+# logs
+*.log

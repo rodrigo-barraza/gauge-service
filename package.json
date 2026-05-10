@@ -1,0 +1,36 @@
+{
+  "name": "gauge-service",
+  "version": "0.1.0",
+  "description": "Weather and sensor monitoring backend — sensors, readings, alerts, weather proxy",
+  "type": "module",
+  "main": "boot.js",
+  "scripts": {
+    "start": "node boot.js",
+    "dev": "nodemon --legacy-watch boot.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.js\"",
+    "format:check": "prettier --check \"**/*.js\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "bash deploy.sh",
+    "deploy:dry": "bash deploy.sh --dry-run"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@rodrigo-barraza/utilities-library": "git+https://github.com/rodrigo-barraza/utilities-library.git",
+    "express": "^5.2.1",
+    "luxon": "^3.7.2",
+    "mongodb": "^7.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.6.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.3",
+    "vitest": "^4.1.5"
+  }
+}
