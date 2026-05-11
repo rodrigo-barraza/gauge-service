@@ -1,1 +1,1 @@
-export { connectDB, getDB, setDBForTesting, setDBForTesting as setDB } from "@rodrigo-barraza/utilities-library/mongo";
+export { getDB, getCollection, connectDB, setDBForTesting } from "@rodrigo-barraza/service-library/mongo";
