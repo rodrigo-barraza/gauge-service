@@ -1,3 +1,4 @@
+import { asyncHandler } from "@rodrigo-barraza/utilities-library/express";
 // ─── Alert Routes ───────────────────────────────────────────
 
 import { Router } from "express";
@@ -14,14 +15,14 @@ import { ALERT_CONDITIONS } from "../constants.js";
 const router = Router();
 
 // GET /alerts
-router.get("/", async (req, res) => {
+router.get("/", asyncHandler(async (req, res) => {
   const { sensorId, active } = req.query;
   const result = await listAlerts({ sensorId, active });
   res.json(result);
-});
+}));
 
 // GET /alerts/history
-router.get("/history", async (req, res) => {
+router.get("/history", asyncHandler(async (req, res) => {
   const { alertId, sensorId, limit } = req.query;
   const result = await getAlertHistory({
     alertId,
@@ -29,17 +30,17 @@ router.get("/history", async (req, res) => {
     limit: limit ? parseInt(limit, 10) : 100,
   });
   res.json(result);
-});
+}));
 
 // GET /alerts/:id
-router.get("/:id", async (req, res) => {
+router.get("/:id", asyncHandler(async (req, res) => {
   const alert = await getAlert(req.params.id);
   if (!alert) return res.status(404).json({ error: "Alert not found" });
   res.json(alert);
-});
+}));
 
 // POST /alerts
-router.post("/", async (req, res) => {
+router.post("/", asyncHandler(async (req, res) => {
   const { name, sensorId, condition, threshold } = req.body;
   if (!name || !sensorId || !condition || threshold === undefined) {
     return res.status(400).json({
@@ -54,20 +55,20 @@ router.post("/", async (req, res) => {
   }
   const alert = await createAlert(req.body);
   res.status(201).json(alert);
-});
+}));
 
 // PUT /alerts/:id
-router.put("/:id", async (req, res) => {
+router.put("/:id", asyncHandler(async (req, res) => {
   const alert = await updateAlert(req.params.id, req.body);
   if (!alert) return res.status(404).json({ error: "Alert not found" });
   res.json(alert);
-});
+}));
 
 // DELETE /alerts/:id
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", asyncHandler(async (req, res) => {
   const deleted = await deleteAlert(req.params.id);
   if (!deleted) return res.status(404).json({ error: "Alert not found" });
   res.json({ deleted: true });
-});
+}));
 
 export default router;
