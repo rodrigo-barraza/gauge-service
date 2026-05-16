@@ -27,7 +27,7 @@ router.get("/history", asyncHandler(async (req, res) => {
   const result = await getAlertHistory({
     alertId,
     sensorId,
-    limit: limit ? parseInt(limit, 10) : 100,
+    limit: Math.min(100, limit ? parseInt(limit, 10) : 20),
   });
   res.json(result);
 }));
@@ -35,7 +35,7 @@ router.get("/history", asyncHandler(async (req, res) => {
 // GET /alerts/:id
 router.get("/:id", asyncHandler(async (req, res) => {
   const alert = await getAlert(req.params.id);
-  if (!alert) return res.status(404).json({ error: "Alert not found" });
+  if (!alert) return res.status(404).json({ error: true, message: "Alert not found", statusCode: 404 });
   res.json(alert);
 }));
 
@@ -44,13 +44,13 @@ router.post("/", asyncHandler(async (req, res) => {
   const { name, sensorId, condition, threshold } = req.body;
   if (!name || !sensorId || !condition || threshold === undefined) {
     return res.status(400).json({
-      error: "name, sensorId, condition, and threshold are required",
+      error: true, message: "name, sensorId, condition, and threshold are required", statusCode: 400,
     });
   }
   const validConditions = Object.values(ALERT_CONDITIONS);
   if (!validConditions.includes(condition)) {
     return res.status(400).json({
-      error: `Invalid condition. Valid: ${validConditions.join(", ")}`,
+      error: true, message: `Invalid condition. Valid: ${validConditions.join(", ")}`, statusCode: 400,
     });
   }
   const alert = await createAlert(req.body);
@@ -60,15 +60,15 @@ router.post("/", asyncHandler(async (req, res) => {
 // PUT /alerts/:id
 router.put("/:id", asyncHandler(async (req, res) => {
   const alert = await updateAlert(req.params.id, req.body);
-  if (!alert) return res.status(404).json({ error: "Alert not found" });
+  if (!alert) return res.status(404).json({ error: true, message: "Alert not found", statusCode: 404 });
   res.json(alert);
 }));
 
 // DELETE /alerts/:id
 router.delete("/:id", asyncHandler(async (req, res) => {
   const deleted = await deleteAlert(req.params.id);
-  if (!deleted) return res.status(404).json({ error: "Alert not found" });
-  res.json({ deleted: true });
+  if (!deleted) return res.status(404).json({ error: true, message: "Alert not found", statusCode: 404 });
+  res.json({ success: true, message: "Alert deleted" });
 }));
 
 export default router;

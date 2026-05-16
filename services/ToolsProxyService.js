@@ -17,9 +17,9 @@ async function fetchFromTools(path) {
       return { error: `Upstream returned ${res.status}`, status: res.status };
     }
     return await res.json();
-  } catch (err) {
-    logger.error(`Tools-service ${path} failed: ${err.message}`);
-    return { error: err.message };
+  } catch (error) {
+    logger.error(`Tools-service ${path} failed: ${error.message}`);
+    return { error: error.message };
   }
 }
 

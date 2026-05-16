@@ -1,6 +1,7 @@
 // ─── Utilities ──────────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
+export { parseIntParam } from "@rodrigo-barraza/utilities-library";
 
 /**
  * Safely convert a string to a MongoDB ObjectId.
@@ -24,10 +25,4 @@ export function buildTimeRangeFilter(field, from, to) {
   return Object.keys(filter).length ? { [field]: filter } : {};
 }
 
-/**
- * Parse a numeric query param with a default fallback.
- */
-export function parseIntParam(value, defaultValue) {
-  const parsed = parseInt(value, 10);
-  return Number.isNaN(parsed) ? defaultValue : parsed;
-}
+

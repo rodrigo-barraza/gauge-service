@@ -23,7 +23,7 @@ router.get("/", asyncHandler(async (req, res) => {
 // GET /sensors/:id
 router.get("/:id", asyncHandler(async (req, res) => {
   const sensor = await getSensor(req.params.id);
-  if (!sensor) return res.status(404).json({ error: "Sensor not found" });
+  if (!sensor) return res.status(404).json({ error: true, message: "Sensor not found", statusCode: 404 });
   res.json(sensor);
 }));
 
@@ -31,11 +31,11 @@ router.get("/:id", asyncHandler(async (req, res) => {
 router.post("/", asyncHandler(async (req, res) => {
   const { name, type } = req.body;
   if (!name || !type) {
-    return res.status(400).json({ error: "name and type are required" });
+    return res.status(400).json({ error: true, message: "name and type are required", statusCode: 400 });
   }
   if (!SENSOR_TYPE_LIST.includes(type)) {
     return res.status(400).json({
-      error: `Invalid sensor type. Valid types: ${SENSOR_TYPE_LIST.join(", ")}`,
+      error: true, message: `Invalid sensor type. Valid types: ${SENSOR_TYPE_LIST.join(", ")}`, statusCode: 400,
     });
   }
   const sensor = await createSensor(req.body);
@@ -45,15 +45,15 @@ router.post("/", asyncHandler(async (req, res) => {
 // PUT /sensors/:id
 router.put("/:id", asyncHandler(async (req, res) => {
   const sensor = await updateSensor(req.params.id, req.body);
-  if (!sensor) return res.status(404).json({ error: "Sensor not found" });
+  if (!sensor) return res.status(404).json({ error: true, message: "Sensor not found", statusCode: 404 });
   res.json(sensor);
 }));
 
 // DELETE /sensors/:id
 router.delete("/:id", asyncHandler(async (req, res) => {
   const deleted = await deleteSensor(req.params.id);
-  if (!deleted) return res.status(404).json({ error: "Sensor not found" });
-  res.json({ deleted: true });
+  if (!deleted) return res.status(404).json({ error: true, message: "Sensor not found", statusCode: 404 });
+  res.json({ success: true, message: "Sensor deleted" });
 }));
 
 export default router;

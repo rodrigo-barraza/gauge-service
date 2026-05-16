@@ -17,7 +17,7 @@ const router = Router();
 router.post("/", asyncHandler(async (req, res) => {
   const { sensorId, value } = req.body;
   if (!sensorId || value === undefined) {
-    return res.status(400).json({ error: "sensorId and value are required" });
+    return res.status(400).json({ error: true, message: "sensorId and value are required", statusCode: 400 });
   }
   const reading = await ingestReading(req.body);
   res.status(201).json(reading);
@@ -27,7 +27,7 @@ router.post("/", asyncHandler(async (req, res) => {
 router.post("/bulk", asyncHandler(async (req, res) => {
   const { readings } = req.body;
   if (!Array.isArray(readings) || readings.length === 0) {
-    return res.status(400).json({ error: "readings array is required" });
+    return res.status(400).json({ error: true, message: "readings array is required", statusCode: 400 });
   }
   const result = await ingestBulkReadings(readings);
   res.status(201).json(result);
@@ -39,7 +39,7 @@ router.get("/:sensorId", asyncHandler(async (req, res) => {
   const result = await getReadings(req.params.sensorId, {
     from,
     to,
-    limit: parseIntParam(limit, 500),
+    limit: Math.min(100, parseIntParam(limit, 20)),
     sort: sort === "asc" ? 1 : -1,
   });
   res.json(result);
