@@ -5,7 +5,7 @@ Weather and sensor monitoring backend — sensors, readings, alerts, and weather
 ## Quick Start
 
 ```bash
-cp .env.example .env
+# Secrets are resolved from vault-service automatically.
 npm install
 npm run dev
 ```
