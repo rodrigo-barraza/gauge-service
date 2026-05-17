@@ -5,4 +5,4 @@ import { bootstrapEnv } from "@rodrigo-barraza/utilities-library/vault";
 
 await bootstrapEnv();
 
-await import("./server.js");
+await import("./server.ts");
