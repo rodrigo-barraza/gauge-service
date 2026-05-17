@@ -17,8 +17,7 @@ RUN npm ci
 # ── Stage 2: Build TypeScript ─────────────────────────────────
 FROM deps AS build
 WORKDIR /app
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/package.json ./package.json
+COPY . .
 RUN npm run build
 # Prune devDependencies for the runtime image
 RUN npm prune --omit=dev
