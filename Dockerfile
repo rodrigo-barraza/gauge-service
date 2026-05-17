@@ -34,4 +34,4 @@ EXPOSE 5607
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
   CMD wget --no-verbose --tries=1 -O /dev/null http://127.0.0.1:5607/health || exit 1
 
-CMD ["node", "boot.js"]
+CMD ["node", "boot.ts"]
