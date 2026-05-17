@@ -48,7 +48,7 @@ export async function getSensor(id) {
 
 export async function createSensor(data) {
   const now = new Date();
-  const doc = {
+  const document = {
     name: data.name,
     type: data.type,
     unit: data.unit || UNIT_MAP[data.type] || "",
@@ -62,8 +62,8 @@ export async function createSensor(data) {
     updatedAt: now,
   };
 
-  const result = await col().insertOne(doc);
-  return { ...doc, _id: result.insertedId };
+  const result = await col().insertOne(document);
+  return { ...document, _id: result.insertedId };
 }
 
 // ── Update ────────────────────────────────────────────────────

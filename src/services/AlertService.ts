@@ -54,7 +54,7 @@ export async function getAlert(id) {
 
 export async function createAlert(data) {
   const now = new Date();
-  const doc = {
+  const document = {
     name: data.name,
     sensorId: new ObjectId(data.sensorId),
     condition: data.condition,
@@ -69,8 +69,8 @@ export async function createAlert(data) {
     updatedAt: now,
   };
 
-  const result = await alertCol().insertOne(doc);
-  return { ...doc, _id: result.insertedId };
+  const result = await alertCol().insertOne(document);
+  return { ...document, _id: result.insertedId };
 }
 
 // ── Update ────────────────────────────────────────────────────

@@ -32,7 +32,7 @@ export async function ingestReading(data) {
   const now = new Date();
   const timestamp = data.timestamp ? new Date(data.timestamp) : now;
 
-  const doc = {
+  const document = {
     sensorId: new ObjectId(data.sensorId),
     value: data.value,
     timestamp,
@@ -44,13 +44,13 @@ export async function ingestReading(data) {
     createdAt: now,
   };
 
-  const result = await col().insertOne(doc);
+  const result = await col().insertOne(document);
 
   // Fire-and-forget: update sensor's last reading + evaluate alerts
   updateLastReading(data.sensorId, data.value, timestamp).catch(() => {});
   evaluateAlerts(data.sensorId, data.value).catch(() => {});
 
-  return { ...doc, _id: result.insertedId };
+  return { ...document, _id: result.insertedId };
 }
 
 // ── Bulk Ingest ───────────────────────────────────────────────
@@ -76,11 +76,11 @@ export async function ingestBulkReadings(readings) {
 
   // Update each sensor's last reading
   const sensorUpdates = new Map();
-  for (const doc of docs) {
-    const sid = doc.sensorId.toString();
+  for (const document of docs) {
+    const sid = document.sensorId.toString();
     const existing = sensorUpdates.get(sid);
-    if (!existing || doc.timestamp > existing.timestamp) {
-      sensorUpdates.set(sid, { value: doc.value, timestamp: doc.timestamp });
+    if (!existing || document.timestamp > existing.timestamp) {
+      sensorUpdates.set(sid, { value: document.value, timestamp: document.timestamp });
     }
   }
   for (const [sensorId, { value, timestamp }] of sensorUpdates) {

@@ -9,29 +9,7 @@ import {
   createSecretGuard,
 } from "@rodrigo-barraza/service-library/auth";
 
-// ── Helpers ────────────────────────────────────────────────────
-function mockReq(overrides = {}) {
-  return {
-    method: "GET",
-    query: {},
-    body: {},
-    headers: {},
-    ip: "127.0.0.1",
-    path: "/test",
-    ...overrides,
-  };
-}
-
-function mockRes() {
-  const res = {
-    _status: null,
-    _json: null,
-    status(code) { res._status = code; return res; },
-    json(data) { res._json = data; return res; },
-    sendStatus(code) { res._status = code; return res; },
-  };
-  return res;
-}
+import { mockReq, mockRes } from "@rodrigo-barraza/utilities-library/testing";
 
 // ── Health ─────────────────────────────────────────────────────
 describe("Health", () => {
@@ -95,7 +73,7 @@ describe("Auth", () => {
 // ── Config ─────────────────────────────────────────────────────
 describe("Config", () => {
   it("should export valid configuration", async () => {
-    const config = await import("../config.js");
+    const config = await import("../src/config.js");
     expect(config.default).toBeTruthy();
     expect(config.default).toHaveProperty("GAUGE_SERVICE_PORT");
     expect(config.default).toHaveProperty("MONGODB_URI");

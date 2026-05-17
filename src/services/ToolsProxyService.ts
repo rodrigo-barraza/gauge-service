@@ -9,15 +9,15 @@ const BASE_URL = CONFIG.TOOLS_SERVICE_URL;
 async function fetchFromTools(path) {
   const url = `${BASE_URL}${path}`;
   try {
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       headers: { "Content-Type": "application/json" },
       signal: AbortSignal.timeout(10_000),
     });
-    if (!res.ok) {
-      logger.warn(`Tools-service ${path} returned ${res.status}`);
-      return { error: `Upstream returned ${res.status}`, status: res.status };
+    if (!response.ok) {
+      logger.warn(`Tools-service ${path} returned ${response.status}`);
+      return { error: `Upstream returned ${response.status}`, status: response.status };
     }
-    return await res.json();
+    return await response.json();
   } catch (error) {
     logger.error(`Tools-service ${path} failed: ${error.message}`);
     return { error: error.message };
