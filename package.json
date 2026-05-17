@@ -22,7 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@rodrigo-barraza/service-library": "git+https://github.com/rodrigo-barraza/service-library.git",
-    "@rodrigo-barraza/utilities-library": "git+https://github.com/rodrigo-barraza/utilities-library.git",
+    "@rodrigo-barraza/utilities-library": "github:rodrigo-barraza/utilities-library",
     "express": "^5.2.1",
     "luxon": "^3.7.2",
     "mongodb": "^7.2.0"
