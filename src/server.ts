@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createService } from "@rodrigo-barraza/service-library";
 import CONFIG from "./config.js";
 

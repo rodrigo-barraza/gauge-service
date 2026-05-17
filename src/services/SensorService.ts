@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ─── SensorService ──────────────────────────────────────────
 
 import { ObjectId } from "mongodb";

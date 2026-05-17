@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ─── Utilities ──────────────────────────────────────────────
 
 import { ObjectId } from "mongodb";

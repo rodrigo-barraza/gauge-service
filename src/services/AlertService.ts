@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ─── AlertService ───────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
@@ -21,10 +20,6 @@ export async function setupAlertsCollection() {
   const history = db.collection(COLLECTIONS.ALERT_HISTORY);
   await history.createIndex({ alertId: 1, triggeredAt: -1 });
   await history.createIndex({ triggeredAt: -1 });
-  await history.createIndex(
-    { expiresAt: 1 },
-    { expireAfterSeconds: 0 },
-  );
 
   logger.info("Alerts collection indexes ensured");
 }
@@ -144,7 +139,6 @@ export async function evaluateAlerts(sensorId, value) {
         value,
         severity: alert.severity,
         triggeredAt: now,
-        expiresAt: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000), // 30-day TTL
       });
 
       logger.warn(

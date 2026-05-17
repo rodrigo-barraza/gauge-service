@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ─── Configuration ──────────────────────────────────────────
 
 const CONFIG = {

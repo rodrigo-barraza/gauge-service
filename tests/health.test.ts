@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ── Health + Auth tests for gauge-service ──
 // Uses createService() from service-library — tests the contract shape.
 

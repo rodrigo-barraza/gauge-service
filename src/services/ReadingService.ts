@@ -1,9 +1,8 @@
-// @ts-nocheck
 // ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
 import { getDB } from "../db.js";
-import { COLLECTIONS, DEFAULT_READING_RETENTION_DAYS } from "../constants.js";
+import { COLLECTIONS } from "../constants.js";
 import { updateLastReading } from "./SensorService.js";
 import { evaluateAlerts } from "./AlertService.js";
 import logger from "../logger.js";
@@ -18,10 +17,6 @@ export async function setupReadingsCollection() {
 
   await collection.createIndex({ sensorId: 1, timestamp: -1 });
   await collection.createIndex({ timestamp: -1 });
-  await collection.createIndex(
-    { expiresAt: 1 },
-    { expireAfterSeconds: 0 },
-  );
 
   logger.info("Readings collection indexes ensured");
 }
@@ -37,10 +32,6 @@ export async function ingestReading(data) {
     value: data.value,
     timestamp,
     metadata: data.metadata || {},
-    expiresAt: new Date(
-      timestamp.getTime() +
-        DEFAULT_READING_RETENTION_DAYS * 24 * 60 * 60 * 1000,
-    ),
     createdAt: now,
   };
 
@@ -64,10 +55,6 @@ export async function ingestBulkReadings(readings) {
       value: r.value,
       timestamp,
       metadata: r.metadata || {},
-      expiresAt: new Date(
-        timestamp.getTime() +
-          DEFAULT_READING_RETENTION_DAYS * 24 * 60 * 60 * 1000,
-      ),
       createdAt: now,
     };
   });
