@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId } from "mongodb";

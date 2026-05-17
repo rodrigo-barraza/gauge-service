@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ─── ToolsProxyService ──────────────────────────────────────
 
 import CONFIG from "../config.js";

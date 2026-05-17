@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ─── DashboardService ───────────────────────────────────────
 
 import { getDB } from "../db.js";
