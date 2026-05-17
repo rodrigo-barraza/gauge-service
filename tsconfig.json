@@ -4,7 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "rootDir": ".",
+    "rootDir": "src",
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
@@ -16,17 +16,7 @@
     "rewriteRelativeImportExtensions": true,
     "lib": ["ES2022"]
   },
-  "include": [
-    "boot.ts",
-    "config.ts",
-    "constants.ts",
-    "db.ts",
-    "logger.ts",
-    "server.ts",
-    "utilities.ts",
-    "routes/**/*.ts",
-    "services/**/*.ts",
-    "tests/**/*.ts"
-  ],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "tests"]
 }
+
