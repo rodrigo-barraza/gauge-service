@@ -23,8 +23,8 @@ export async function setupSensorsCollection() {
 
 // ── List ──────────────────────────────────────────────────────
 
-export async function listSensors(filters = {}) {
-  const query = {};
+export async function listSensors(filters: Record<string, any> = {}) {
+  const query: Record<string, any> = {};
   if (filters.type) query.type = filters.type;
   if (filters.status) query.status = filters.status;
   if (filters.location) query.location = { $regex: filters.location, $options: "i" };

@@ -19,7 +19,7 @@ export function toObjectId(id) {
  * Build a time-range filter for MongoDB queries.
  */
 export function buildTimeRangeFilter(field, from, to) {
-  const filter = {};
+  const filter: Record<string, any> = {};
   if (from) filter.$gte = new Date(from);
   if (to) filter.$lte = new Date(to);
   return Object.keys(filter).length ? { [field]: filter } : {};

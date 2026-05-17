@@ -47,7 +47,7 @@ router.get("/full", asyncHandler(async (_req, res) => {
 // ── Environment ───────────────────────────────────────────────
 
 router.get("/environment", asyncHandler(async (req, res) => {
-  const { source } = req.query;
+  const { source } = req.query as Record<string, string>;
   if (!source) {
     return res.status(400).json({
       error: "source query parameter is required",
@@ -64,7 +64,7 @@ router.get("/environment/dashboard", asyncHandler(async (_req, res) => {
 // ── Live Weather ──────────────────────────────────────────────
 
 router.get("/live", asyncHandler(async (req, res) => {
-  const { location, units } = req.query;
+  const { location, units } = req.query as Record<string, string>;
   if (!location) {
     return res.status(400).json({
       error: "location query parameter is required",

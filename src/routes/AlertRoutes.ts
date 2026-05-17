@@ -16,14 +16,14 @@ const router = Router();
 
 // GET /alerts
 router.get("/", asyncHandler(async (req, res) => {
-  const { sensorId, active } = req.query;
+  const { sensorId, active } = req.query as Record<string, string>;
   const result = await listAlerts({ sensorId, active });
   res.json(result);
 }));
 
 // GET /alerts/history
 router.get("/history", asyncHandler(async (req, res) => {
-  const { alertId, sensorId, limit } = req.query;
+  const { alertId, sensorId, limit } = req.query as Record<string, string>;
   const result = await getAlertHistory({
     alertId,
     sensorId,

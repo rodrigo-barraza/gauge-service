@@ -35,7 +35,7 @@ router.post("/bulk", asyncHandler(async (req, res) => {
 
 // GET /readings/:sensorId — query readings for a sensor
 router.get("/:sensorId", asyncHandler(async (req, res) => {
-  const { from, to, limit, sort } = req.query;
+  const { from, to, limit, sort } = req.query as Record<string, string>;
   const result = await getReadings(req.params.sensorId, {
     from,
     to,
@@ -47,15 +47,15 @@ router.get("/:sensorId", asyncHandler(async (req, res) => {
 
 // GET /readings/:sensorId/sparkline — downsampled sparkline data
 router.get("/:sensorId/sparkline", asyncHandler(async (req, res) => {
-  const hours = parseIntParam(req.query.hours, 24);
-  const points = parseIntParam(req.query.points, 50);
+  const hours = parseIntParam(req.query.hours as string, 24);
+  const points = parseIntParam(req.query.points as string, 50);
   const data = await getSparklineData(req.params.sensorId, hours, points);
   res.json({ data, count: data.length });
 }));
 
 // GET /readings/:sensorId/stats — aggregate statistics
 router.get("/:sensorId/stats", asyncHandler(async (req, res) => {
-  const hours = parseIntParam(req.query.hours, 24);
+  const hours = parseIntParam(req.query.hours as string, 24);
   const stats = await getReadingStats(req.params.sensorId, hours);
   res.json(stats);
 }));

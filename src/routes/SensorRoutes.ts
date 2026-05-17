@@ -15,7 +15,7 @@ const router = Router();
 
 // GET /sensors
 router.get("/", asyncHandler(async (req, res) => {
-  const { type, status, location } = req.query;
+  const { type, status, location } = req.query as Record<string, string>;
   const result = await listSensors({ type, status, location });
   res.json(result);
 }));

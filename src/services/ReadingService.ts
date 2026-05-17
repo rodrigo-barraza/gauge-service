@@ -80,12 +80,12 @@ export async function ingestBulkReadings(readings) {
 
 // ── Query Readings ────────────────────────────────────────────
 
-export async function getReadings(sensorId, options = {}) {
+export async function getReadings(sensorId, options: Record<string, any> = {}) {
   const { from, to, limit = 500, sort = -1 } = options;
-  const query = { sensorId: new ObjectId(sensorId) };
+  const query: Record<string, any> = { sensorId: new ObjectId(sensorId) };
 
   if (from || to) {
-    query.timestamp = {};
+    query.timestamp = {} as Record<string, any>;
     if (from) query.timestamp.$gte = new Date(from);
     if (to) query.timestamp.$lte = new Date(to);
   }

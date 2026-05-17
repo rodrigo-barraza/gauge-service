@@ -26,8 +26,8 @@ export async function setupAlertsCollection() {
 
 // ── List ──────────────────────────────────────────────────────
 
-export async function listAlerts(filters = {}) {
-  const query = {};
+export async function listAlerts(filters: Record<string, any> = {}) {
+  const query: Record<string, any> = {};
   if (filters.sensorId) query.sensorId = new ObjectId(filters.sensorId);
   if (filters.active !== undefined) query.active = filters.active === "true" || filters.active === true;
 
@@ -150,9 +150,9 @@ export async function evaluateAlerts(sensorId, value) {
 
 // ── Alert History ─────────────────────────────────────────────
 
-export async function getAlertHistory(options = {}) {
+export async function getAlertHistory(options: Record<string, any> = {}) {
   const { alertId, sensorId, limit = 100 } = options;
-  const query = {};
+  const query: Record<string, any> = {};
   if (alertId) query.alertId = new ObjectId(alertId);
   if (sensorId) query.sensorId = new ObjectId(sensorId);
 
