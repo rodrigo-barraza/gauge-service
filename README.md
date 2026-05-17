@@ -35,7 +35,7 @@ npm run dev
 
 ## Stack
 
-- **Runtime:** Node.js (ES Modules)
+- **Runtime:** Node.js (TypeScript)
 - **Framework:** Express 5
 - **Database:** MongoDB
 - **Weather:** tools-service proxy
