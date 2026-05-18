@@ -41,13 +41,13 @@ export async function listAlerts(filters: Record<string, any> = {}) {
 
 // ── Get ───────────────────────────────────────────────────────
 
-export async function getAlert(id) {
+export async function getAlert(id: any) {
   return alertCol().findOne({ _id: new ObjectId(id) });
 }
 
 // ── Create ────────────────────────────────────────────────────
 
-export async function createAlert(data) {
+export async function createAlert(data: any) {
   const now = new Date();
   const document = {
     name: data.name,
@@ -70,8 +70,8 @@ export async function createAlert(data) {
 
 // ── Update ────────────────────────────────────────────────────
 
-export async function updateAlert(id, data) {
-  const updates = { updatedAt: new Date() };
+export async function updateAlert(id: any, data: any) {
+  const updates: Record<string, any> = { updatedAt: new Date() };
   const allowed = ["name", "condition", "threshold", "thresholdHigh", "severity", "message", "active"];
   for (const key of allowed) {
     if (data[key] !== undefined) updates[key] = data[key];
@@ -87,7 +87,7 @@ export async function updateAlert(id, data) {
 
 // ── Delete ────────────────────────────────────────────────────
 
-export async function deleteAlert(id) {
+export async function deleteAlert(id: any) {
   const result = await alertCol().deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
 }
@@ -95,7 +95,7 @@ export async function deleteAlert(id) {
 // ── Evaluate Alerts ───────────────────────────────────────────
 // Called on each reading ingest to check thresholds.
 
-export async function evaluateAlerts(sensorId, value) {
+export async function evaluateAlerts(sensorId: any, value: any) {
   const alerts = await alertCol()
     .find({ sensorId: new ObjectId(sensorId), active: true })
     .toArray();

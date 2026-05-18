@@ -17,7 +17,7 @@ export async function getDashboardSummary() {
       getAlertSummary(),
     ]);
 
-  const totalSensors = sensorsByType.reduce((sum, s) => sum + s.count, 0);
+  const totalSensors = sensorsByType.reduce((sum: any, s: any) => sum + s.count, 0);
 
   return {
     totalSensors,
@@ -39,7 +39,7 @@ export async function getSensorOverview() {
     .sort({ createdAt: -1 })
     .toArray();
 
-  return sensors.map((sensor) => ({
+  return sensors.map((sensor: any) => ({
     _id: sensor._id,
     name: sensor.name,
     type: sensor.type,

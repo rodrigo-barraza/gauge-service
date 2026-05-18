@@ -23,7 +23,7 @@ export async function setupReadingsCollection() {
 
 // ── Ingest Single Reading ─────────────────────────────────────
 
-export async function ingestReading(data) {
+export async function ingestReading(data: any) {
   const now = new Date();
   const timestamp = data.timestamp ? new Date(data.timestamp) : now;
 
@@ -46,9 +46,9 @@ export async function ingestReading(data) {
 
 // ── Bulk Ingest ───────────────────────────────────────────────
 
-export async function ingestBulkReadings(readings) {
+export async function ingestBulkReadings(readings: any) {
   const now = new Date();
-  const docs = readings.map((r) => {
+  const docs = readings.map((r: any) => {
     const timestamp = r.timestamp ? new Date(r.timestamp) : now;
     return {
       sensorId: new ObjectId(r.sensorId),
@@ -80,7 +80,7 @@ export async function ingestBulkReadings(readings) {
 
 // ── Query Readings ────────────────────────────────────────────
 
-export async function getReadings(sensorId, options: Record<string, any> = {}) {
+export async function getReadings(sensorId: any, options: Record<string, any> = {}) {
   const { from, to, limit = 500, sort = -1 } = options;
   const query: Record<string, any> = { sensorId: new ObjectId(sensorId) };
 
@@ -119,7 +119,7 @@ export async function getLatestReadings() {
 
 // ── Sparkline Data ────────────────────────────────────────────
 
-export async function getSparklineData(sensorId, hours = 24, points = 50) {
+export async function getSparklineData(sensorId: any, hours: any = 24, points: any = 50) {
   const since = new Date(Date.now() - hours * 60 * 60 * 1000);
 
   const readings = await col()
@@ -134,7 +134,7 @@ export async function getSparklineData(sensorId, hours = 24, points = 50) {
   if (readings.length <= points) return readings;
 
   const step = readings.length / points;
-  const sampled = [];
+  const sampled: any[] = [];
   for (let i = 0; i < points; i++) {
     sampled.push(readings[Math.floor(i * step)]);
   }
@@ -143,7 +143,7 @@ export async function getSparklineData(sensorId, hours = 24, points = 50) {
 
 // ── Aggregate Stats ───────────────────────────────────────────
 
-export async function getReadingStats(sensorId, hours = 24) {
+export async function getReadingStats(sensorId: any, hours: any = 24) {
   const since = new Date(Date.now() - hours * 60 * 60 * 1000);
 
   const [stats] = await col()

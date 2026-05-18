@@ -24,29 +24,29 @@ const router = Router();
 
 // ── Weather ───────────────────────────────────────────────────
 
-router.get("/current", asyncHandler(async (_req, res) => {
+router.get("/current", asyncHandler(async (_req: any, res: any) => {
   res.json(await getCurrentWeather());
 }));
 
-router.get("/forecast", asyncHandler(async (_req, res) => {
+router.get("/forecast", asyncHandler(async (_req: any, res: any) => {
   res.json(await getWeatherForecast());
 }));
 
-router.get("/air", asyncHandler(async (_req, res) => {
+router.get("/air", asyncHandler(async (_req: any, res: any) => {
   res.json(await getAirQuality());
 }));
 
-router.get("/daylight", asyncHandler(async (_req, res) => {
+router.get("/daylight", asyncHandler(async (_req: any, res: any) => {
   res.json(await getDaylight());
 }));
 
-router.get("/full", asyncHandler(async (_req, res) => {
+router.get("/full", asyncHandler(async (_req: any, res: any) => {
   res.json(await getFullWeather());
 }));
 
 // ── Environment ───────────────────────────────────────────────
 
-router.get("/environment", asyncHandler(async (req, res) => {
+router.get("/environment", asyncHandler(async (req: any, res: any) => {
   const { source } = req.query as Record<string, string>;
   if (!source) {
     return res.status(400).json({
@@ -57,13 +57,13 @@ router.get("/environment", asyncHandler(async (req, res) => {
   res.json(await getEnvironmentData(source));
 }));
 
-router.get("/environment/dashboard", asyncHandler(async (_req, res) => {
+router.get("/environment/dashboard", asyncHandler(async (_req: any, res: any) => {
   res.json(await getEnvironmentDashboard());
 }));
 
 // ── Live Weather ──────────────────────────────────────────────
 
-router.get("/live", asyncHandler(async (req, res) => {
+router.get("/live", asyncHandler(async (req: any, res: any) => {
   const { location, units } = req.query as Record<string, string>;
   if (!location) {
     return res.status(400).json({
@@ -76,29 +76,29 @@ router.get("/live", asyncHandler(async (req, res) => {
 
 // ── Space Weather ─────────────────────────────────────────────
 
-router.get("/space", asyncHandler(async (_req, res) => {
+router.get("/space", asyncHandler(async (_req: any, res: any) => {
   res.json(await getSpaceWeather());
 }));
 
-router.get("/kp", asyncHandler(async (_req, res) => {
+router.get("/kp", asyncHandler(async (_req: any, res: any) => {
   res.json(await getKpIndex());
 }));
 
 // ── Other ─────────────────────────────────────────────────────
 
-router.get("/earthquakes", asyncHandler(async (_req, res) => {
+router.get("/earthquakes", asyncHandler(async (_req: any, res: any) => {
   res.json(await getEarthquakes());
 }));
 
-router.get("/iss", asyncHandler(async (_req, res) => {
+router.get("/iss", asyncHandler(async (_req: any, res: any) => {
   res.json(await getIssPosition());
 }));
 
-router.get("/pollen", asyncHandler(async (_req, res) => {
+router.get("/pollen", asyncHandler(async (_req: any, res: any) => {
   res.json(await getPollen());
 }));
 
-router.get("/launches/next", asyncHandler(async (_req, res) => {
+router.get("/launches/next", asyncHandler(async (_req: any, res: any) => {
   res.json(await getNextLaunch());
 }));
 

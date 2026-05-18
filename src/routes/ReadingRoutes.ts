@@ -14,7 +14,7 @@ import { parseIntParam } from "../utilities.js";
 const router = Router();
 
 // POST /readings — ingest a single reading
-router.post("/", asyncHandler(async (req, res) => {
+router.post("/", asyncHandler(async (req: any, res: any) => {
   const { sensorId, value } = req.body;
   if (!sensorId || value === undefined) {
     return res.status(400).json({ error: true, message: "sensorId and value are required", statusCode: 400 });
@@ -24,7 +24,7 @@ router.post("/", asyncHandler(async (req, res) => {
 }));
 
 // POST /readings/bulk — ingest multiple readings
-router.post("/bulk", asyncHandler(async (req, res) => {
+router.post("/bulk", asyncHandler(async (req: any, res: any) => {
   const { readings } = req.body;
   if (!Array.isArray(readings) || readings.length === 0) {
     return res.status(400).json({ error: true, message: "readings array is required", statusCode: 400 });
@@ -34,7 +34,7 @@ router.post("/bulk", asyncHandler(async (req, res) => {
 }));
 
 // GET /readings/:sensorId — query readings for a sensor
-router.get("/:sensorId", asyncHandler(async (req, res) => {
+router.get("/:sensorId", asyncHandler(async (req: any, res: any) => {
   const { from, to, limit, sort } = req.query as Record<string, string>;
   const result = await getReadings(req.params.sensorId, {
     from,
@@ -46,7 +46,7 @@ router.get("/:sensorId", asyncHandler(async (req, res) => {
 }));
 
 // GET /readings/:sensorId/sparkline — downsampled sparkline data
-router.get("/:sensorId/sparkline", asyncHandler(async (req, res) => {
+router.get("/:sensorId/sparkline", asyncHandler(async (req: any, res: any) => {
   const hours = parseIntParam(req.query.hours as string, 24);
   const points = parseIntParam(req.query.points as string, 50);
   const data = await getSparklineData(req.params.sensorId, hours, points);
@@ -54,7 +54,7 @@ router.get("/:sensorId/sparkline", asyncHandler(async (req, res) => {
 }));
 
 // GET /readings/:sensorId/stats — aggregate statistics
-router.get("/:sensorId/stats", asyncHandler(async (req, res) => {
+router.get("/:sensorId/stats", asyncHandler(async (req: any, res: any) => {
   const hours = parseIntParam(req.query.hours as string, 24);
   const stats = await getReadingStats(req.params.sensorId, hours);
   res.json(stats);
