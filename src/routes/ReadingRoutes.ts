@@ -8,8 +8,8 @@ import {
   getReadings,
   getSparklineData,
   getReadingStats,
-} from "../services/ReadingService.js";
-import { parseIntParam } from "../utilities.js";
+} from "../services/ReadingService.ts";
+import { parseIntParam } from "../utilities.ts";
 
 const router = Router();
 

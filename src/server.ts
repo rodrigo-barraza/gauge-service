@@ -1,17 +1,17 @@
 import { createService } from "@rodrigo-barraza/service-library";
-import CONFIG from "./config.js";
+import CONFIG from "./config.ts";
 
 // ─── Collection Setup ──────────────────────────────────────────
-import { setupSensorsCollection } from "./services/SensorService.js";
-import { setupReadingsCollection } from "./services/ReadingService.js";
-import { setupAlertsCollection } from "./services/AlertService.js";
+import { setupSensorsCollection } from "./services/SensorService.ts";
+import { setupReadingsCollection } from "./services/ReadingService.ts";
+import { setupAlertsCollection } from "./services/AlertService.ts";
 
 // ─── Routes ────────────────────────────────────────────────────
-import sensorRoutes from "./routes/SensorRoutes.js";
-import readingRoutes from "./routes/ReadingRoutes.js";
-import alertRoutes from "./routes/AlertRoutes.js";
-import dashboardRoutes from "./routes/DashboardRoutes.js";
-import weatherProxyRoutes from "./routes/WeatherProxyRoutes.js";
+import sensorRoutes from "./routes/SensorRoutes.ts";
+import readingRoutes from "./routes/ReadingRoutes.ts";
+import alertRoutes from "./routes/AlertRoutes.ts";
+import dashboardRoutes from "./routes/DashboardRoutes.ts";
+import weatherProxyRoutes from "./routes/WeatherProxyRoutes.ts";
 
 // ─── Service Bootstrap ────────────────────────────────────────
 

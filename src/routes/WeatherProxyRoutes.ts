@@ -17,8 +17,8 @@ import {
   getPollen,
   getNextLaunch,
   getEnvironmentDashboard,
-} from "../services/ToolsProxyService.js";
-import { WEATHER_SOURCES } from "../constants.js";
+} from "../services/ToolsProxyService.ts";
+import { WEATHER_SOURCES } from "../constants.ts";
 
 const router = Router();
 

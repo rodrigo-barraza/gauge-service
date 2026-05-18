@@ -5,7 +5,7 @@ import { Router } from "express";
 import {
   getDashboardSummary,
   getSensorOverview,
-} from "../services/DashboardService.js";
+} from "../services/DashboardService.ts";
 
 const router = Router();
 

@@ -8,8 +8,8 @@ import {
   createSensor,
   updateSensor,
   deleteSensor,
-} from "../services/SensorService.js";
-import { SENSOR_TYPE_LIST } from "../constants.js";
+} from "../services/SensorService.ts";
+import { SENSOR_TYPE_LIST } from "../constants.ts";
 
 const router = Router();
 

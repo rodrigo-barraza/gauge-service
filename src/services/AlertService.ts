@@ -1,9 +1,9 @@
 // ─── AlertService ───────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
-import { getDB } from "../db.js";
-import { COLLECTIONS, ALERT_CONDITIONS } from "../constants.js";
-import logger from "../logger.js";
+import { getDB } from "../db.ts";
+import { COLLECTIONS, ALERT_CONDITIONS } from "../constants.ts";
+import logger from "../logger.ts";
 
 const alertCol = () => getDB().collection(COLLECTIONS.ALERTS);
 const historyCol = () => getDB().collection(COLLECTIONS.ALERT_HISTORY);

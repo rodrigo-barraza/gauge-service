@@ -9,8 +9,8 @@ import {
   updateAlert,
   deleteAlert,
   getAlertHistory,
-} from "../services/AlertService.js";
-import { ALERT_CONDITIONS } from "../constants.js";
+} from "../services/AlertService.ts";
+import { ALERT_CONDITIONS } from "../constants.ts";
 
 const router = Router();
 

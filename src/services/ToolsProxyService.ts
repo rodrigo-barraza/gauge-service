@@ -1,7 +1,7 @@
 // ─── ToolsProxyService ──────────────────────────────────────
 
-import CONFIG from "../config.js";
-import logger from "../logger.js";
+import CONFIG from "../config.ts";
+import logger from "../logger.ts";
 
 const BASE_URL = CONFIG.TOOLS_SERVICE_URL;
 

@@ -1,10 +1,10 @@
 // ─── DashboardService ───────────────────────────────────────
 
-import { getDB } from "../db.js";
-import { COLLECTIONS } from "../constants.js";
-import { countByType, countByStatus } from "./SensorService.js";
-import { getLatestReadings } from "./ReadingService.js";
-import { getAlertSummary } from "./AlertService.js";
+import { getDB } from "../db.ts";
+import { COLLECTIONS } from "../constants.ts";
+import { countByType, countByStatus } from "./SensorService.ts";
+import { getLatestReadings } from "./ReadingService.ts";
+import { getAlertSummary } from "./AlertService.ts";
 
 // ── Dashboard Summary ─────────────────────────────────────────
 

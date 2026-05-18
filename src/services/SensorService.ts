@@ -1,9 +1,9 @@
 // ─── SensorService ──────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
-import { getDB } from "../db.js";
-import { COLLECTIONS, SENSOR_STATUS, UNIT_MAP } from "../constants.js";
-import logger from "../logger.js";
+import { getDB } from "../db.ts";
+import { COLLECTIONS, SENSOR_STATUS, UNIT_MAP } from "../constants.ts";
+import logger from "../logger.ts";
 
 const col = () => getDB().collection(COLLECTIONS.SENSORS);
 

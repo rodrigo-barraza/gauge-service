@@ -1,11 +1,11 @@
 // ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
-import { getDB } from "../db.js";
-import { COLLECTIONS } from "../constants.js";
-import { updateLastReading } from "./SensorService.js";
-import { evaluateAlerts } from "./AlertService.js";
-import logger from "../logger.js";
+import { getDB } from "../db.ts";
+import { COLLECTIONS } from "../constants.ts";
+import { updateLastReading } from "./SensorService.ts";
+import { evaluateAlerts } from "./AlertService.ts";
+import logger from "../logger.ts";
 
 const col = () => getDB().collection(COLLECTIONS.READINGS);
 
