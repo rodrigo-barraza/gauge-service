@@ -5,6 +5,7 @@ import { COLLECTIONS } from "../constants.ts";
 import { countByType, countByStatus } from "./SensorService.ts";
 import { getLatestReadings } from "./ReadingService.ts";
 import { getAlertSummary } from "./AlertService.ts";
+import type { Document } from "mongodb";
 
 // ── Dashboard Summary ─────────────────────────────────────────
 
@@ -17,7 +18,7 @@ export async function getDashboardSummary() {
       getAlertSummary(),
     ]);
 
-  const totalSensors = sensorsByType.reduce((sum: any, s: any) => sum + s.count, 0);
+  const totalSensors = sensorsByType.reduce((sum: number, s: Document) => sum + (s.count as number), 0);
 
   return {
     totalSensors,
@@ -39,7 +40,7 @@ export async function getSensorOverview() {
     .sort({ createdAt: -1 })
     .toArray();
 
-  return sensors.map((sensor: any) => ({
+  return sensors.map((sensor: Document) => ({
     _id: sensor._id,
     name: sensor.name,
     type: sensor.type,

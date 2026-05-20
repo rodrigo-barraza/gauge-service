@@ -5,7 +5,7 @@ import logger from "../logger.ts";
 
 const BASE_URL = CONFIG.TOOLS_SERVICE_URL;
 
-async function fetchFromTools(path: any) {
+async function fetchFromTools(path: string) {
   const url = `${BASE_URL}${path}`;
   try {
     const response = await fetch(url, {
@@ -17,9 +17,10 @@ async function fetchFromTools(path: any) {
       return { error: `Upstream returned ${response.status}`, status: response.status };
     }
     return await response.json();
-  } catch (error: any) {
-    logger.error(`Tools-service ${path} failed: ${error.message}`);
-    return { error: error.message };
+  } catch (error: unknown) {
+    const err = error as Error;
+    logger.error(`Tools-service ${path} failed: ${err.message}`);
+    return { error: err.message };
   }
 }
 
@@ -47,13 +48,13 @@ export async function getFullWeather() {
 
 // ── Environment Sources ───────────────────────────────────────
 
-export async function getEnvironmentData(source: any) {
+export async function getEnvironmentData(source: string) {
   return fetchFromTools(`/weather/environment?source=${source}`);
 }
 
 // ── Live Weather (any location) ───────────────────────────────
 
-export async function getLiveWeather(location: any, units: any = "metric") {
+export async function getLiveWeather(location: string, units: string = "metric") {
   return fetchFromTools(
     `/weather/live?location=${encodeURIComponent(location)}&units=${units}`,
   );

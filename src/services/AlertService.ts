@@ -8,6 +8,31 @@ import logger from "../logger.ts";
 const alertCol = () => getDB().collection(COLLECTIONS.ALERTS);
 const historyCol = () => getDB().collection(COLLECTIONS.ALERT_HISTORY);
 
+// ─── Types ───────────────────────────────────────────────────
+
+export interface AlertFilter {
+  sensorId?: string;
+  active?: string | boolean;
+}
+
+export interface CreateAlertData {
+  name: string;
+  sensorId: string;
+  condition: string;
+  threshold: number;
+  thresholdHigh?: number | null;
+  severity?: string;
+  message?: string;
+}
+
+export type UpdateAlertData = Partial<CreateAlertData> & { active?: boolean };
+
+export interface AlertHistoryOptions {
+  alertId?: string;
+  sensorId?: string;
+  limit?: number;
+}
+
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupAlertsCollection() {
@@ -26,8 +51,8 @@ export async function setupAlertsCollection() {
 
 // ── List ──────────────────────────────────────────────────────
 
-export async function listAlerts(filters: Record<string, any> = {}) {
-  const query: Record<string, any> = {};
+export async function listAlerts(filters: AlertFilter = {}) {
+  const query: Record<string, unknown> = {};
   if (filters.sensorId) query.sensorId = new ObjectId(filters.sensorId);
   if (filters.active !== undefined) query.active = filters.active === "true" || filters.active === true;
 
@@ -41,13 +66,13 @@ export async function listAlerts(filters: Record<string, any> = {}) {
 
 // ── Get ───────────────────────────────────────────────────────
 
-export async function getAlert(id: any) {
+export async function getAlert(id: string) {
   return alertCol().findOne({ _id: new ObjectId(id) });
 }
 
 // ── Create ────────────────────────────────────────────────────
 
-export async function createAlert(data: any) {
+export async function createAlert(data: CreateAlertData) {
   const now = new Date();
   const document = {
     name: data.name,
@@ -70,11 +95,11 @@ export async function createAlert(data: any) {
 
 // ── Update ────────────────────────────────────────────────────
 
-export async function updateAlert(id: any, data: any) {
-  const updates: Record<string, any> = { updatedAt: new Date() };
+export async function updateAlert(id: string, data: UpdateAlertData) {
+  const updates: Record<string, unknown> = { updatedAt: new Date() };
   const allowed = ["name", "condition", "threshold", "thresholdHigh", "severity", "message", "active"];
   for (const key of allowed) {
-    if (data[key] !== undefined) updates[key] = data[key];
+    if ((data as Record<string, unknown>)[key] !== undefined) updates[key] = (data as Record<string, unknown>)[key];
   }
 
   const result = await alertCol().findOneAndUpdate(
@@ -87,7 +112,7 @@ export async function updateAlert(id: any, data: any) {
 
 // ── Delete ────────────────────────────────────────────────────
 
-export async function deleteAlert(id: any) {
+export async function deleteAlert(id: string) {
   const result = await alertCol().deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
 }
@@ -95,7 +120,7 @@ export async function deleteAlert(id: any) {
 // ── Evaluate Alerts ───────────────────────────────────────────
 // Called on each reading ingest to check thresholds.
 
-export async function evaluateAlerts(sensorId: any, value: any) {
+export async function evaluateAlerts(sensorId: string, value: number) {
   const alerts = await alertCol()
     .find({ sensorId: new ObjectId(sensorId), active: true })
     .toArray();
@@ -150,9 +175,9 @@ export async function evaluateAlerts(sensorId: any, value: any) {
 
 // ── Alert History ─────────────────────────────────────────────
 
-export async function getAlertHistory(options: Record<string, any> = {}) {
+export async function getAlertHistory(options: AlertHistoryOptions = {}) {
   const { alertId, sensorId, limit = 100 } = options;
-  const query: Record<string, any> = {};
+  const query: Record<string, unknown> = {};
   if (alertId) query.alertId = new ObjectId(alertId);
   if (sensorId) query.sensorId = new ObjectId(sensorId);
 

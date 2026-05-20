@@ -7,6 +7,25 @@ import logger from "../logger.ts";
 
 const col = () => getDB().collection(COLLECTIONS.SENSORS);
 
+// ─── Types ───────────────────────────────────────────────────
+
+export interface SensorFilter {
+  type?: string;
+  status?: string;
+  location?: string;
+}
+
+export interface CreateSensorData {
+  name: string;
+  type: string;
+  unit?: string;
+  location?: string;
+  description?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export type UpdateSensorData = Partial<CreateSensorData> & { status?: string };
+
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupSensorsCollection() {
@@ -23,8 +42,8 @@ export async function setupSensorsCollection() {
 
 // ── List ──────────────────────────────────────────────────────
 
-export async function listSensors(filters: Record<string, any> = {}) {
-  const query: Record<string, any> = {};
+export async function listSensors(filters: SensorFilter = {}) {
+  const query: Record<string, unknown> = {};
   if (filters.type) query.type = filters.type;
   if (filters.status) query.status = filters.status;
   if (filters.location) query.location = { $regex: filters.location, $options: "i" };
@@ -39,13 +58,13 @@ export async function listSensors(filters: Record<string, any> = {}) {
 
 // ── Get ───────────────────────────────────────────────────────
 
-export async function getSensor(id: any) {
+export async function getSensor(id: string) {
   return col().findOne({ _id: new ObjectId(id) });
 }
 
 // ── Create ────────────────────────────────────────────────────
 
-export async function createSensor(data: any) {
+export async function createSensor(data: CreateSensorData) {
   const now = new Date();
   const document = {
     name: data.name,
@@ -67,11 +86,11 @@ export async function createSensor(data: any) {
 
 // ── Update ────────────────────────────────────────────────────
 
-export async function updateSensor(id: any, data: any) {
-  const updates: Record<string, any> = { updatedAt: new Date() };
+export async function updateSensor(id: string, data: UpdateSensorData) {
+  const updates: Record<string, unknown> = { updatedAt: new Date() };
   const allowed = ["name", "type", "unit", "location", "description", "status", "metadata"];
   for (const key of allowed) {
-    if (data[key] !== undefined) updates[key] = data[key];
+    if ((data as Record<string, unknown>)[key] !== undefined) updates[key] = (data as Record<string, unknown>)[key];
   }
 
   const result = await col().findOneAndUpdate(
@@ -84,14 +103,14 @@ export async function updateSensor(id: any, data: any) {
 
 // ── Delete ────────────────────────────────────────────────────
 
-export async function deleteSensor(id: any) {
+export async function deleteSensor(id: string) {
   const result = await col().deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
 }
 
 // ── Update Last Reading ───────────────────────────────────────
 
-export async function updateLastReading(sensorId: any, value: any, timestamp: any) {
+export async function updateLastReading(sensorId: string, value: number, timestamp: Date) {
   await col().updateOne(
     { _id: new ObjectId(sensorId) },
     {

@@ -1,6 +1,6 @@
 // ─── ReadingService ─────────────────────────────────────────
 
-import { ObjectId } from "mongodb";
+import { ObjectId, type Document } from "mongodb";
 import { getDB } from "../db.ts";
 import { COLLECTIONS } from "../constants.ts";
 import { updateLastReading } from "./SensorService.ts";
@@ -8,6 +8,22 @@ import { evaluateAlerts } from "./AlertService.ts";
 import logger from "../logger.ts";
 
 const col = () => getDB().collection(COLLECTIONS.READINGS);
+
+// ─── Types ───────────────────────────────────────────────────
+
+export interface IngestReadingData {
+  sensorId: string;
+  value: number;
+  timestamp?: string | Date;
+  metadata?: Record<string, unknown>;
+}
+
+export interface ReadingQueryOptions {
+  from?: string;
+  to?: string;
+  limit?: number;
+  sort?: 1 | -1;
+}
 
 // ── Collection Setup ──────────────────────────────────────────
 
@@ -23,7 +39,7 @@ export async function setupReadingsCollection() {
 
 // ── Ingest Single Reading ─────────────────────────────────────
 
-export async function ingestReading(data: any) {
+export async function ingestReading(data: IngestReadingData) {
   const now = new Date();
   const timestamp = data.timestamp ? new Date(data.timestamp) : now;
 
@@ -46,9 +62,9 @@ export async function ingestReading(data: any) {
 
 // ── Bulk Ingest ───────────────────────────────────────────────
 
-export async function ingestBulkReadings(readings: any) {
+export async function ingestBulkReadings(readings: IngestReadingData[]) {
   const now = new Date();
-  const docs = readings.map((r: any) => {
+  const docs = readings.map((r: IngestReadingData) => {
     const timestamp = r.timestamp ? new Date(r.timestamp) : now;
     return {
       sensorId: new ObjectId(r.sensorId),
@@ -62,7 +78,7 @@ export async function ingestBulkReadings(readings: any) {
   const result = await col().insertMany(docs);
 
   // Update each sensor's last reading
-  const sensorUpdates = new Map();
+  const sensorUpdates = new Map<string, { value: number; timestamp: Date }>();
   for (const document of docs) {
     const sid = document.sensorId.toString();
     const existing = sensorUpdates.get(sid);
@@ -80,14 +96,15 @@ export async function ingestBulkReadings(readings: any) {
 
 // ── Query Readings ────────────────────────────────────────────
 
-export async function getReadings(sensorId: any, options: Record<string, any> = {}) {
+export async function getReadings(sensorId: string, options: ReadingQueryOptions = {}) {
   const { from, to, limit = 500, sort = -1 } = options;
-  const query: Record<string, any> = { sensorId: new ObjectId(sensorId) };
+  const query: Record<string, unknown> = { sensorId: new ObjectId(sensorId) };
 
   if (from || to) {
-    query.timestamp = {} as Record<string, any>;
-    if (from) query.timestamp.$gte = new Date(from);
-    if (to) query.timestamp.$lte = new Date(to);
+    const timestampFilter: Record<string, Date> = {};
+    if (from) timestampFilter.$gte = new Date(from);
+    if (to) timestampFilter.$lte = new Date(to);
+    query.timestamp = timestampFilter;
   }
 
   const readings = await col()
@@ -119,7 +136,7 @@ export async function getLatestReadings() {
 
 // ── Sparkline Data ────────────────────────────────────────────
 
-export async function getSparklineData(sensorId: any, hours: any = 24, points: any = 50) {
+export async function getSparklineData(sensorId: string, hours: number = 24, points: number = 50) {
   const since = new Date(Date.now() - hours * 60 * 60 * 1000);
 
   const readings = await col()
@@ -134,7 +151,7 @@ export async function getSparklineData(sensorId: any, hours: any = 24, points: a
   if (readings.length <= points) return readings;
 
   const step = readings.length / points;
-  const sampled: any[] = [];
+  const sampled: Document[] = [];
   for (let i = 0; i < points; i++) {
     sampled.push(readings[Math.floor(i * step)]);
   }
@@ -143,7 +160,7 @@ export async function getSparklineData(sensorId: any, hours: any = 24, points: a
 
 // ── Aggregate Stats ───────────────────────────────────────────
 
-export async function getReadingStats(sensorId: any, hours: any = 24) {
+export async function getReadingStats(sensorId: string, hours: number = 24) {
   const since = new Date(Date.now() - hours * 60 * 60 * 1000);
 
   const [stats] = await col()

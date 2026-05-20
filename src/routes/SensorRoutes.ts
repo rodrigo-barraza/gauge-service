@@ -1,7 +1,7 @@
 import { asyncHandler } from "@rodrigo-barraza/utilities-library/express";
 // ─── Sensor Routes ──────────────────────────────────────────
 
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import {
   listSensors,
   getSensor,
@@ -14,21 +14,21 @@ import { SENSOR_TYPE_LIST } from "../constants.ts";
 const router = Router();
 
 // GET /sensors
-router.get("/", asyncHandler(async (req: any, res: any) => {
+router.get("/", asyncHandler(async (req: Request, res: Response) => {
   const { type, status, location } = req.query as Record<string, string>;
   const result = await listSensors({ type, status, location });
   res.json(result);
 }));
 
 // GET /sensors/:id
-router.get("/:id", asyncHandler(async (req: any, res: any) => {
-  const sensor = await getSensor(req.params.id);
+router.get("/:id", asyncHandler(async (req: Request, res: Response) => {
+  const sensor = await getSensor(String(req.params.id));
   if (!sensor) return res.status(404).json({ error: true, message: "Sensor not found", statusCode: 404 });
   res.json(sensor);
 }));
 
 // POST /sensors
-router.post("/", asyncHandler(async (req: any, res: any) => {
+router.post("/", asyncHandler(async (req: Request, res: Response) => {
   const { name, type } = req.body;
   if (!name || !type) {
     return res.status(400).json({ error: true, message: "name and type are required", statusCode: 400 });
@@ -43,15 +43,15 @@ router.post("/", asyncHandler(async (req: any, res: any) => {
 }));
 
 // PUT /sensors/:id
-router.put("/:id", asyncHandler(async (req: any, res: any) => {
-  const sensor = await updateSensor(req.params.id, req.body);
+router.put("/:id", asyncHandler(async (req: Request, res: Response) => {
+  const sensor = await updateSensor(String(req.params.id), req.body);
   if (!sensor) return res.status(404).json({ error: true, message: "Sensor not found", statusCode: 404 });
   res.json(sensor);
 }));
 
 // DELETE /sensors/:id
-router.delete("/:id", asyncHandler(async (req: any, res: any) => {
-  const deleted = await deleteSensor(req.params.id);
+router.delete("/:id", asyncHandler(async (req: Request, res: Response) => {
+  const deleted = await deleteSensor(String(req.params.id));
   if (!deleted) return res.status(404).json({ error: true, message: "Sensor not found", statusCode: 404 });
   res.json({ success: true, message: "Sensor deleted" });
 }));

@@ -1,7 +1,7 @@
 import { asyncHandler } from "@rodrigo-barraza/utilities-library/express";
 // ─── Alert Routes ───────────────────────────────────────────
 
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import {
   listAlerts,
   getAlert,
@@ -15,14 +15,14 @@ import { ALERT_CONDITIONS } from "../constants.ts";
 const router = Router();
 
 // GET /alerts
-router.get("/", asyncHandler(async (req: any, res: any) => {
+router.get("/", asyncHandler(async (req: Request, res: Response) => {
   const { sensorId, active } = req.query as Record<string, string>;
   const result = await listAlerts({ sensorId, active });
   res.json(result);
 }));
 
 // GET /alerts/history
-router.get("/history", asyncHandler(async (req: any, res: any) => {
+router.get("/history", asyncHandler(async (req: Request, res: Response) => {
   const { alertId, sensorId, limit } = req.query as Record<string, string>;
   const result = await getAlertHistory({
     alertId,
@@ -33,14 +33,14 @@ router.get("/history", asyncHandler(async (req: any, res: any) => {
 }));
 
 // GET /alerts/:id
-router.get("/:id", asyncHandler(async (req: any, res: any) => {
-  const alert = await getAlert(req.params.id);
+router.get("/:id", asyncHandler(async (req: Request, res: Response) => {
+  const alert = await getAlert(String(req.params.id));
   if (!alert) return res.status(404).json({ error: true, message: "Alert not found", statusCode: 404 });
   res.json(alert);
 }));
 
 // POST /alerts
-router.post("/", asyncHandler(async (req: any, res: any) => {
+router.post("/", asyncHandler(async (req: Request, res: Response) => {
   const { name, sensorId, condition, threshold } = req.body;
   if (!name || !sensorId || !condition || threshold === undefined) {
     return res.status(400).json({
@@ -58,15 +58,15 @@ router.post("/", asyncHandler(async (req: any, res: any) => {
 }));
 
 // PUT /alerts/:id
-router.put("/:id", asyncHandler(async (req: any, res: any) => {
-  const alert = await updateAlert(req.params.id, req.body);
+router.put("/:id", asyncHandler(async (req: Request, res: Response) => {
+  const alert = await updateAlert(String(req.params.id), req.body);
   if (!alert) return res.status(404).json({ error: true, message: "Alert not found", statusCode: 404 });
   res.json(alert);
 }));
 
 // DELETE /alerts/:id
-router.delete("/:id", asyncHandler(async (req: any, res: any) => {
-  const deleted = await deleteAlert(req.params.id);
+router.delete("/:id", asyncHandler(async (req: Request, res: Response) => {
+  const deleted = await deleteAlert(String(req.params.id));
   if (!deleted) return res.status(404).json({ error: true, message: "Alert not found", statusCode: 404 });
   res.json({ success: true, message: "Alert deleted" });
 }));
