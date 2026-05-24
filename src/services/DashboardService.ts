@@ -33,8 +33,8 @@ export async function getDashboardSummary() {
 // ── Sensor Overview (joined with latest readings) ─────────────
 
 export async function getSensorOverview() {
-  const db = getDB();
-  const sensors = await db
+  const database = getDB();
+  const sensors = await database
     .collection(COLLECTIONS.SENSORS)
     .find()
     .sort({ createdAt: -1 })

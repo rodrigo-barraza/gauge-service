@@ -36,13 +36,13 @@ export interface AlertHistoryOptions {
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupAlertsCollection() {
-  const db = getDB();
+  const database = getDB();
 
-  const alerts = db.collection(COLLECTIONS.ALERTS);
+  const alerts = database.collection(COLLECTIONS.ALERTS);
   await alerts.createIndex({ sensorId: 1 });
   await alerts.createIndex({ active: 1 });
 
-  const history = db.collection(COLLECTIONS.ALERT_HISTORY);
+  const history = database.collection(COLLECTIONS.ALERT_HISTORY);
   await history.createIndex({ alertId: 1, triggeredAt: -1 });
   await history.createIndex({ triggeredAt: -1 });
 

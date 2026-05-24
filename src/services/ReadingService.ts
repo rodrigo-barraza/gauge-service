@@ -28,8 +28,8 @@ export interface ReadingQueryOptions {
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupReadingsCollection() {
-  const db = getDB();
-  const collection = db.collection(COLLECTIONS.READINGS);
+  const database = getDB();
+  const collection = database.collection(COLLECTIONS.READINGS);
 
   await collection.createIndex({ sensorId: 1, timestamp: -1 });
   await collection.createIndex({ timestamp: -1 });

@@ -29,8 +29,8 @@ export type UpdateSensorData = Partial<CreateSensorData> & { status?: string };
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupSensorsCollection() {
-  const db = getDB();
-  const collection = db.collection(COLLECTIONS.SENSORS);
+  const database = getDB();
+  const collection = database.collection(COLLECTIONS.SENSORS);
 
   await collection.createIndex({ type: 1 });
   await collection.createIndex({ status: 1 });
