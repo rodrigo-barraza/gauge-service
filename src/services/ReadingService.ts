@@ -64,13 +64,13 @@ export async function ingestReading(data: IngestReadingData) {
 
 export async function ingestBulkReadings(readings: IngestReadingData[]) {
   const now = new Date();
-  const docs = readings.map((r: IngestReadingData) => {
-    const timestamp = r.timestamp ? new Date(r.timestamp) : now;
+  const docs = readings.map((reading: IngestReadingData) => {
+    const timestamp = reading.timestamp ? new Date(reading.timestamp) : now;
     return {
-      sensorId: new ObjectId(r.sensorId),
-      value: r.value,
+      sensorId: new ObjectId(reading.sensorId),
+      value: reading.value,
       timestamp,
-      metadata: r.metadata || {},
+      metadata: reading.metadata || {},
       createdAt: now,
     };
   });
