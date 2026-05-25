@@ -1,7 +1,7 @@
 // ─── SensorService ──────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
-import { getDB } from "../db.ts";
+import { getDB } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS, SENSOR_STATUS, UNIT_MAP } from "../constants.ts";
 import logger from "../logger.ts";
 

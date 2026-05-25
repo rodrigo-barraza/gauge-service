@@ -1,7 +1,7 @@
 // ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId, type Document } from "mongodb";
-import { getDB } from "../db.ts";
+import { getDB } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS } from "../constants.ts";
 import { updateLastReading } from "./SensorService.ts";
 import { evaluateAlerts } from "./AlertService.ts";

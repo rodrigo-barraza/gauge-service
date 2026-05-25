@@ -1,6 +1,6 @@
 // ─── DashboardService ───────────────────────────────────────
 
-import { getDB } from "../db.ts";
+import { getDB } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS } from "../constants.ts";
 import { countByType, countByStatus } from "./SensorService.ts";
 import { getLatestReadings } from "./ReadingService.ts";
