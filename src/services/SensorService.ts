@@ -5,7 +5,7 @@ import { getDB } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS, SENSOR_STATUS, UNIT_MAP } from "../constants.ts";
 import logger from "../logger.ts";
 
-const col = () => getDB().collection(COLLECTIONS.SENSORS);
+const getSensorsCollection = () => getDB().collection(COLLECTIONS.SENSORS);
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -48,7 +48,7 @@ export async function listSensors(filters: SensorFilter = {}) {
   if (filters.status) query.status = filters.status;
   if (filters.location) query.location = { $regex: filters.location, $options: "i" };
 
-  const sensors = await col()
+  const sensors = await getSensorsCollection()
     .find(query)
     .sort({ createdAt: -1 })
     .toArray();
@@ -59,7 +59,7 @@ export async function listSensors(filters: SensorFilter = {}) {
 // ── Get ───────────────────────────────────────────────────────
 
 export async function getSensor(id: string) {
-  return col().findOne({ _id: new ObjectId(id) });
+  return getSensorsCollection().findOne({ _id: new ObjectId(id) });
 }
 
 // ── Create ────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ export async function createSensor(data: CreateSensorData) {
     updatedAt: now,
   };
 
-  const result = await col().insertOne(document);
+  const result = await getSensorsCollection().insertOne(document);
   return { ...document, _id: result.insertedId };
 }
 
@@ -93,7 +93,7 @@ export async function updateSensor(id: string, data: UpdateSensorData) {
     if ((data as Record<string, unknown>)[key] !== undefined) updates[key] = (data as Record<string, unknown>)[key];
   }
 
-  const result = await col().findOneAndUpdate(
+  const result = await getSensorsCollection().findOneAndUpdate(
     { _id: new ObjectId(id) },
     { $set: updates },
     { returnDocument: "after" },
@@ -104,14 +104,14 @@ export async function updateSensor(id: string, data: UpdateSensorData) {
 // ── Delete ────────────────────────────────────────────────────
 
 export async function deleteSensor(id: string) {
-  const result = await col().deleteOne({ _id: new ObjectId(id) });
+  const result = await getSensorsCollection().deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
 }
 
 // ── Update Last Reading ───────────────────────────────────────
 
 export async function updateLastReading(sensorId: string, value: number, timestamp: Date) {
-  await col().updateOne(
+  await getSensorsCollection().updateOne(
     { _id: new ObjectId(sensorId) },
     {
       $set: {
@@ -126,7 +126,7 @@ export async function updateLastReading(sensorId: string, value: number, timesta
 // ── Count by Type ─────────────────────────────────────────────
 
 export async function countByType() {
-  return col()
+  return getSensorsCollection()
     .aggregate([
       { $group: { _id: "$type", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
@@ -137,7 +137,7 @@ export async function countByType() {
 // ── Count by Status ───────────────────────────────────────────
 
 export async function countByStatus() {
-  return col()
+  return getSensorsCollection()
     .aggregate([
       { $group: { _id: "$status", count: { $sum: 1 } } },
     ])

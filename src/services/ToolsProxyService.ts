@@ -18,9 +18,9 @@ async function fetchFromTools(path: string) {
     }
     return await response.json();
   } catch (error: unknown) {
-    const err = error as Error;
-    logger.error(`Tools-service ${path} failed: ${err.message}`);
-    return { error: err.message };
+    const errorObject = error as Error;
+    logger.error(`Tools-service ${path} failed: ${errorObject.message}`);
+    return { error: errorObject.message };
   }
 }
 

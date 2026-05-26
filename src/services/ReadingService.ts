@@ -7,7 +7,7 @@ import { updateLastReading } from "./SensorService.ts";
 import { evaluateAlerts } from "./AlertService.ts";
 import logger from "../logger.ts";
 
-const col = () => getDB().collection(COLLECTIONS.READINGS);
+const getReadingsCollection = () => getDB().collection(COLLECTIONS.READINGS);
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -51,7 +51,7 @@ export async function ingestReading(data: IngestReadingData) {
     createdAt: now,
   };
 
-  const result = await col().insertOne(document);
+  const result = await getReadingsCollection().insertOne(document);
 
   // Fire-and-forget: update sensor's last reading + evaluate alerts
   updateLastReading(data.sensorId, data.value, timestamp).catch(() => {});
@@ -75,7 +75,7 @@ export async function ingestBulkReadings(readings: IngestReadingData[]) {
     };
   });
 
-  const result = await col().insertMany(docs);
+  const result = await getReadingsCollection().insertMany(docs);
 
   // Update each sensor's last reading
   const sensorUpdates = new Map<string, { value: number; timestamp: Date }>();
@@ -107,7 +107,7 @@ export async function getReadings(sensorId: string, options: ReadingQueryOptions
     query.timestamp = timestampFilter;
   }
 
-  const readings = await col()
+  const readings = await getReadingsCollection()
     .find(query)
     .sort({ timestamp: sort })
     .limit(limit)
@@ -119,7 +119,7 @@ export async function getReadings(sensorId: string, options: ReadingQueryOptions
 // ── Latest Reading Per Sensor ─────────────────────────────────
 
 export async function getLatestReadings() {
-  return col()
+  return getReadingsCollection()
     .aggregate([
       { $sort: { timestamp: -1 } },
       {
@@ -139,7 +139,7 @@ export async function getLatestReadings() {
 export async function getSparklineData(sensorId: string, hours: number = 24, points: number = 50) {
   const since = new Date(Date.now() - hours * 60 * 60 * 1000);
 
-  const readings = await col()
+  const readings = await getReadingsCollection()
     .find({
       sensorId: new ObjectId(sensorId),
       timestamp: { $gte: since },
@@ -163,7 +163,7 @@ export async function getSparklineData(sensorId: string, hours: number = 24, poi
 export async function getReadingStats(sensorId: string, hours: number = 24) {
   const since = new Date(Date.now() - hours * 60 * 60 * 1000);
 
-  const [stats] = await col()
+  const [stats] = await getReadingsCollection()
     .aggregate([
       {
         $match: {
