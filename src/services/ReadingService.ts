@@ -80,10 +80,10 @@ export async function ingestBulkReadings(readings: IngestReadingData[]) {
   // Update each sensor's last reading
   const sensorUpdates = new Map<string, { value: number; timestamp: Date }>();
   for (const document of docs) {
-    const sid = document.sensorId.toString();
-    const existing = sensorUpdates.get(sid);
+    const sensorIdString = document.sensorId.toString();
+    const existing = sensorUpdates.get(sensorIdString);
     if (!existing || document.timestamp > existing.timestamp) {
-      sensorUpdates.set(sid, { value: document.value, timestamp: document.timestamp });
+      sensorUpdates.set(sensorIdString, { value: document.value, timestamp: document.timestamp });
     }
   }
   for (const [sensorId, { value, timestamp }] of sensorUpdates) {
