@@ -9,7 +9,7 @@ import {
   getSparklineData,
   getReadingStats,
 } from "../services/ReadingService.ts";
-import { parseIntParam } from "../utilities.ts";
+import { parseIntParam } from "@rodrigo-barraza/utilities-library";
 
 const router = Router();
 
