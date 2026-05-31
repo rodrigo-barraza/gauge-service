@@ -19,7 +19,10 @@ await createService({
   name: "gauge-service",
   port: CONFIG.GAUGE_SERVICE_PORT,
   description: "Weather and sensor monitoring API — sensors, readings, alerts, weather proxy",
-  mongo: { uri: CONFIG.MONGODB_URI },
+  mongo: {
+    uri: CONFIG.MONGODB_URI,
+    dbName: CONFIG.MONGODB_DB_NAME,
+  },
   routes: [
     { path: "/sensors", router: sensorRoutes },
     { path: "/readings", router: readingRoutes },
