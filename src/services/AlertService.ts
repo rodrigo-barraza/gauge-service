@@ -1,12 +1,12 @@
 // ─── AlertService ───────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
-import { getDB } from "@rodrigo-barraza/service-library/mongo";
+import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS, ALERT_CONDITIONS } from "../constants.ts";
 import logger from "../logger.ts";
 
-const alertCol = () => getDB().collection(COLLECTIONS.ALERTS);
-const historyCol = () => getDB().collection(COLLECTIONS.ALERT_HISTORY);
+const alertCol = () => getDatabase().collection(COLLECTIONS.ALERTS);
+const historyCol = () => getDatabase().collection(COLLECTIONS.ALERT_HISTORY);
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -36,7 +36,7 @@ export interface AlertHistoryOptions {
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupAlertsCollection() {
-  const database = getDB();
+  const database = getDatabase();
 
   const alerts = database.collection(COLLECTIONS.ALERTS);
   await alerts.createIndex({ sensorId: 1 });

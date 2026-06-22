@@ -1,5 +1,6 @@
 // ─── ToolsProxyService ──────────────────────────────────────
 
+import { errorMessage } from "@rodrigo-barraza/utilities-library";
 import CONFIG from "../config.ts";
 import logger from "../logger.ts";
 
@@ -18,9 +19,8 @@ async function fetchFromTools(path: string) {
     }
     return await response.json();
   } catch (error: unknown) {
-    const errorObject = error as Error;
-    logger.error(`Tools-service ${path} failed: ${errorObject.message}`);
-    return { error: errorObject.message };
+    logger.error(`Tools-service ${path} failed: ${errorMessage(error)}`);
+    return { error: errorMessage(error) };
   }
 }
 
@@ -97,7 +97,7 @@ export async function getNextLaunch() {
 // ── Aggregated Environment Dashboard ──────────────────────────
 
 export async function getEnvironmentDashboard() {
-  const [weather, airQuality, daylight, spaceWeather, kp, pollen] =
+  const [weather, airQuality, daylight, spaceWeather, kpIndex, pollen] =
     await Promise.all([
       getCurrentWeather(),
       getAirQuality(),
@@ -112,7 +112,8 @@ export async function getEnvironmentDashboard() {
     airQuality,
     daylight,
     spaceWeather,
-    kp,
+    kpIndex,
+    kp: kpIndex,
     pollen,
     timestamp: new Date(),
   };

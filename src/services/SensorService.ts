@@ -1,11 +1,11 @@
 // ─── SensorService ──────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
-import { getDB } from "@rodrigo-barraza/service-library/mongo";
+import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS, SENSOR_STATUS, UNIT_MAP } from "../constants.ts";
 import logger from "../logger.ts";
 
-const getSensorsCollection = () => getDB().collection(COLLECTIONS.SENSORS);
+const getSensorsCollection = () => getDatabase().collection(COLLECTIONS.SENSORS);
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -29,7 +29,7 @@ export type UpdateSensorData = Partial<CreateSensorData> & { status?: string };
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupSensorsCollection() {
-  const database = getDB();
+  const database = getDatabase();
   const collection = database.collection(COLLECTIONS.SENSORS);
 
   await collection.createIndex({ type: 1 });

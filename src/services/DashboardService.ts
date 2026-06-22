@@ -1,6 +1,6 @@
 // ─── DashboardService ───────────────────────────────────────
 
-import { getDB } from "@rodrigo-barraza/service-library/mongo";
+import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS } from "../constants.ts";
 import { countByType, countByStatus } from "./SensorService.ts";
 import { getLatestReadings } from "./ReadingService.ts";
@@ -33,7 +33,7 @@ export async function getDashboardSummary() {
 // ── Sensor Overview (joined with latest readings) ─────────────
 
 export async function getSensorOverview() {
-  const database = getDB();
+  const database = getDatabase();
   const sensors = await database
     .collection(COLLECTIONS.SENSORS)
     .find()

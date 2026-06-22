@@ -1,13 +1,13 @@
 // ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId, type Document } from "mongodb";
-import { getDB } from "@rodrigo-barraza/service-library/mongo";
+import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS } from "../constants.ts";
 import { updateLastReading } from "./SensorService.ts";
 import { evaluateAlerts } from "./AlertService.ts";
 import logger from "../logger.ts";
 
-const getReadingsCollection = () => getDB().collection(COLLECTIONS.READINGS);
+const getReadingsCollection = () => getDatabase().collection(COLLECTIONS.READINGS);
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -28,7 +28,7 @@ export interface ReadingQueryOptions {
 // ── Collection Setup ──────────────────────────────────────────
 
 export async function setupReadingsCollection() {
-  const database = getDB();
+  const database = getDatabase();
   const collection = database.collection(COLLECTIONS.READINGS);
 
   await collection.createIndex({ sensorId: 1, timestamp: -1 });
