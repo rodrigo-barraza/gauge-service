@@ -1,6 +1,7 @@
 // ─── ReadingService ─────────────────────────────────────────
 
 import { ObjectId, type Document } from "mongodb";
+import { hours } from "@rodrigo-barraza/utilities-library";
 import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS } from "../constants.ts";
 import { updateLastReading } from "./SensorService.ts";
@@ -136,8 +137,8 @@ export async function getLatestReadings() {
 
 // ── Sparkline Data ────────────────────────────────────────────
 
-export async function getSparklineData(sensorId: string, hours: number = 24, points: number = 50) {
-  const since = new Date(Date.now() - hours * 60 * 60 * 1000);
+export async function getSparklineData(sensorId: string, hoursCount: number = 24, points: number = 50) {
+  const since = new Date(Date.now() - hours(hoursCount));
 
   const readings = await getReadingsCollection()
     .find({
@@ -160,8 +161,8 @@ export async function getSparklineData(sensorId: string, hours: number = 24, poi
 
 // ── Aggregate Stats ───────────────────────────────────────────
 
-export async function getReadingStats(sensorId: string, hours: number = 24) {
-  const since = new Date(Date.now() - hours * 60 * 60 * 1000);
+export async function getReadingStats(sensorId: string, hoursCount: number = 24) {
+  const since = new Date(Date.now() - hours(hoursCount));
 
   const [stats] = await getReadingsCollection()
     .aggregate([

@@ -1,6 +1,7 @@
 // ─── AlertService ───────────────────────────────────────────
 
 import { ObjectId } from "mongodb";
+import { MILLISECONDS_PER_DAY } from "@rodrigo-barraza/utilities-library";
 import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
 import { COLLECTIONS, ALERT_CONDITIONS } from "../constants.ts";
 import logger from "../logger.ts";
@@ -197,7 +198,7 @@ export async function getAlertSummary() {
     alertCol().countDocuments(),
     alertCol().countDocuments({ active: true }),
     historyCol().countDocuments({
-      triggeredAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+      triggeredAt: { $gte: new Date(Date.now() - MILLISECONDS_PER_DAY) },
     }),
   ]);
 
