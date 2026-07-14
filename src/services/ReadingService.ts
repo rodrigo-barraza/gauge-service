@@ -2,7 +2,7 @@
 
 import { ObjectId, type Document } from "mongodb";
 import { hours } from "@rodrigo-barraza/utilities-library";
-import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
+import { getDatabase } from "@rodrigo-barraza/utilities-library/service/mongo";
 import { COLLECTIONS } from "../constants.ts";
 import { updateLastReading } from "./SensorService.ts";
 import { evaluateAlerts } from "./AlertService.ts";

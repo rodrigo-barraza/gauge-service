@@ -2,7 +2,7 @@
 
 import { ObjectId } from "mongodb";
 import { MILLISECONDS_PER_DAY } from "@rodrigo-barraza/utilities-library";
-import { getDatabase } from "@rodrigo-barraza/service-library/mongo";
+import { getDatabase } from "@rodrigo-barraza/utilities-library/service/mongo";
 import { COLLECTIONS, ALERT_CONDITIONS } from "../constants.ts";
 import logger from "../logger.ts";
 
