@@ -1,24 +1,23 @@
 // ─── ToolsProxyService ──────────────────────────────────────
 
 import { errorMessage } from "@rodrigo-barraza/utilities-library";
+import { ApiError, createApiClient } from "@rodrigo-barraza/utilities-library/http";
 import CONFIG from "../config.ts";
 import logger from "../logger.ts";
 
-const BASE_URL = CONFIG.TOOLS_SERVICE_URL;
+const toolsClient = createApiClient(CONFIG.TOOLS_SERVICE_URL ?? "", {
+  headers: { "Content-Type": "application/json" },
+  timeoutMilliseconds: 10_000,
+});
 
 async function fetchFromTools(path: string) {
-  const url = `${BASE_URL}${path}`;
   try {
-    const response = await fetch(url, {
-      headers: { "Content-Type": "application/json" },
-      signal: AbortSignal.timeout(10_000),
-    });
-    if (!response.ok) {
-      logger.warn(`Tools-service ${path} returned ${response.status}`);
-      return { error: `Upstream returned ${response.status}`, status: response.status };
-    }
-    return await response.json();
+    return await toolsClient.get(path);
   } catch (error: unknown) {
+    if (error instanceof ApiError) {
+      logger.warn(`Tools-service ${path} returned ${error.status}`);
+      return { error: `Upstream returned ${error.status}`, status: error.status };
+    }
     logger.error(`Tools-service ${path} failed: ${errorMessage(error)}`);
     return { error: errorMessage(error) };
   }
