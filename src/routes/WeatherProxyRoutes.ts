@@ -1,7 +1,7 @@
 import { asyncHandler } from "@rodrigo-barraza/utilities-library/express";
 // ─── Weather Proxy Routes ───────────────────────────────────
 
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import {
   getCurrentWeather,
   getWeatherForecast,

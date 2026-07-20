@@ -72,7 +72,7 @@ describe("Auth", () => {
 // ── Config ─────────────────────────────────────────────────────
 describe("Config", () => {
   it("should export valid configuration", async () => {
-    const config = await import("../src/config.js");
+    const config = await import("../src/config.ts");
     expect(config.default).toBeTruthy();
     expect(config.default).toHaveProperty("GAUGE_SERVICE_PORT");
     expect(config.default).toHaveProperty("MONGODB_URI");

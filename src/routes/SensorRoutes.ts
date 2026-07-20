@@ -1,7 +1,7 @@
 import { asyncHandler } from "@rodrigo-barraza/utilities-library/express";
 // ─── Sensor Routes ──────────────────────────────────────────
 
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import {
   listSensors,
   getSensor,
